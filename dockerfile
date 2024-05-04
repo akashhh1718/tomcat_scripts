@@ -15,8 +15,8 @@ RUN yum -y update && \
 RUN yum -y install unzip
 
 # Download and extract Tomcat
-RUN wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.91/bin/apache-tomcat-8.5.91.zip && \
-    unzip apache-tomcat-8.5.91.zip -d /opt && \
+RUN wget -q https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.91/bin/apache-tomcat-8.5.91.zip && \
+    unzip -q apache-tomcat-8.5.91.zip -d /opt && \
     rm apache-tomcat-8.5.91.zip && \
     mv /opt/apache-tomcat-8.5.91 $CATALINA_HOME
 
