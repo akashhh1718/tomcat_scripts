@@ -26,5 +26,8 @@ RUN chmod +x $CATALINA_HOME/bin/catalina.sh
 # Expose the default Tomcat port
 EXPOSE 8090
 
+# Copy student.war into webapps directory of Tomcat
+COPY student.war $CATALINA_HOME/webapps/
+
 # Set the command to start Tomcat
 CMD ["/opt/tomcat/bin/catalina.sh", "run"]
