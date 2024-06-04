@@ -1,33 +1,8 @@
-# Use the CentOS 7 base image
-FROM centos:7
+# Use the official Tomcat image as the base image
+FROM tomcat:8.5.71
 
-# Set environment variables
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk \
-    CATALINA_HOME=/opt/tomcat \
-    PATH=$CATALINA_HOME/bin:$PATH
+# Download the student.war file from the specified URL
+RUN wget -q https://s3-us-west-2.amazonaws.com/studentapi-cit/student.war -P /usr/local/tomcat/webapps/
 
-# Install Java 8 and necessary packages
-RUN yum -y update && \
-    yum -y install java-1.8.0-openjdk-devel wget && \
-    yum clean all
-
-# Install the unzip package
-RUN yum -y install unzip
-
-# Download and extract Tomcat
-RUN wget -q https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.91/bin/apache-tomcat-8.5.91.zip && \
-    unzip -q apache-tomcat-8.5.91.zip -d /opt && \
-    rm apache-tomcat-8.5.91.zip && \
-    mv /opt/apache-tomcat-8.5.91 $CATALINA_HOME
-
-# Set executable permissions for catalina.sh
-RUN chmod +x $CATALINA_HOME/bin/catalina.sh
-
-# Expose the default Tomcat port
-EXPOSE 8090
-
-# Copy student.war into webapps directory of Tomcat
-COPY student.war $CATALINA_HOME/webapps/
-
-# Set the command to start Tomcat
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+# Start the Tomcat server
+CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
